@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+option csharp_namespace = "CatalogService";
+package itemDetail;
+service Catalog {
+
+  rpc GetItem (ItemRequest) returns (ItemResponse);
+}
+
+message ItemRequest{
+  string ItemId = 1;
+}
+
+message ItemResponse{
+  string ItemId = 1;
+  string ProductName = 2;
+  float Price = 3;
+  string Description = 4;
+}
