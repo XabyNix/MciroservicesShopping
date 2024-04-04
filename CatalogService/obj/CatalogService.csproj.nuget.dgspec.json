@@ -40,7 +40,7 @@
           "dependencies": {
             "Grpc.AspNetCore": {
               "target": "Package",
-              "version": "[2.27.0, )"
+              "version": "[2.62.0, )"
             },
             "Microsoft.EntityFrameworkCore": {
               "target": "Package",
@@ -62,7 +62,7 @@
             },
             "Swashbuckle.AspNetCore": {
               "target": "Package",
-              "version": "[6.4.0, )"
+              "version": "[6.5.0, )"
             }
           },
           "imports": [

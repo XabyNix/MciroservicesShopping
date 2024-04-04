@@ -129,3 +129,4 @@
 /home/orazio/Documenti/dotnet/test/CartService/bin/Debug/net8.0/Grpc.Core.Api.dll
 /home/orazio/Documenti/dotnet/test/CartService/bin/Debug/net8.0/Grpc.Net.Client.dll
 /home/orazio/Documenti/dotnet/test/CartService/bin/Debug/net8.0/Grpc.Net.Common.dll
+/home/orazio/Documenti/dotnet/test/CartService/obj/Debug/net8.0/CartService.sourcelink.json

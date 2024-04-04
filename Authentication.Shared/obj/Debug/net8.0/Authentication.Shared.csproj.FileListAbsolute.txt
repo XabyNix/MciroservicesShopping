@@ -1,0 +1,12 @@
+/home/orazio/Documenti/dotnet/test/Authentication.Shared/bin/Debug/net8.0/Authentication.Shared.deps.json
+/home/orazio/Documenti/dotnet/test/Authentication.Shared/bin/Debug/net8.0/Authentication.Shared.dll
+/home/orazio/Documenti/dotnet/test/Authentication.Shared/bin/Debug/net8.0/Authentication.Shared.pdb
+/home/orazio/Documenti/dotnet/test/Authentication.Shared/obj/Debug/net8.0/Authentication.Shared.GeneratedMSBuildEditorConfig.editorconfig
+/home/orazio/Documenti/dotnet/test/Authentication.Shared/obj/Debug/net8.0/Authentication.Shared.AssemblyInfoInputs.cache
+/home/orazio/Documenti/dotnet/test/Authentication.Shared/obj/Debug/net8.0/Authentication.Shared.AssemblyInfo.cs
+/home/orazio/Documenti/dotnet/test/Authentication.Shared/obj/Debug/net8.0/Authentication.Shared.csproj.CoreCompileInputs.cache
+/home/orazio/Documenti/dotnet/test/Authentication.Shared/obj/Debug/net8.0/Authentication.Shared.sourcelink.json
+/home/orazio/Documenti/dotnet/test/Authentication.Shared/obj/Debug/net8.0/Authentication.Shared.dll
+/home/orazio/Documenti/dotnet/test/Authentication.Shared/obj/Debug/net8.0/refint/Authentication.Shared.dll
+/home/orazio/Documenti/dotnet/test/Authentication.Shared/obj/Debug/net8.0/Authentication.Shared.pdb
+/home/orazio/Documenti/dotnet/test/Authentication.Shared/obj/Debug/net8.0/ref/Authentication.Shared.dll

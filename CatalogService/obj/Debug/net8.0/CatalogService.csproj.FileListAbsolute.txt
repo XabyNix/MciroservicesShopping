@@ -131,3 +131,4 @@
 /home/orazio/Documenti/dotnet/test/CatalogService/obj/Debug/net8.0/CatalogService.pdb
 /home/orazio/Documenti/dotnet/test/CatalogService/obj/Debug/net8.0/CatalogService.genruntimeconfig.cache
 /home/orazio/Documenti/dotnet/test/CatalogService/obj/Debug/net8.0/ref/CatalogService.dll
+/home/orazio/Documenti/dotnet/test/CatalogService/obj/Debug/net8.0/CatalogService.sourcelink.json

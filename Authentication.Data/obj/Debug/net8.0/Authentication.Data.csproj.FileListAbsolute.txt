@@ -1,0 +1,15 @@
+/home/orazio/Documenti/dotnet/test/Authentication.Data/bin/Debug/net8.0/Authentication.Data.deps.json
+/home/orazio/Documenti/dotnet/test/Authentication.Data/bin/Debug/net8.0/Authentication.Data.runtimeconfig.json
+/home/orazio/Documenti/dotnet/test/Authentication.Data/bin/Debug/net8.0/Authentication.Data.dll
+/home/orazio/Documenti/dotnet/test/Authentication.Data/bin/Debug/net8.0/Authentication.Data.pdb
+/home/orazio/Documenti/dotnet/test/Authentication.Data/obj/Debug/net8.0/Authentication.Data.csproj.AssemblyReference.cache
+/home/orazio/Documenti/dotnet/test/Authentication.Data/obj/Debug/net8.0/Authentication.Data.GeneratedMSBuildEditorConfig.editorconfig
+/home/orazio/Documenti/dotnet/test/Authentication.Data/obj/Debug/net8.0/Authentication.Data.AssemblyInfoInputs.cache
+/home/orazio/Documenti/dotnet/test/Authentication.Data/obj/Debug/net8.0/Authentication.Data.AssemblyInfo.cs
+/home/orazio/Documenti/dotnet/test/Authentication.Data/obj/Debug/net8.0/Authentication.Data.csproj.CoreCompileInputs.cache
+/home/orazio/Documenti/dotnet/test/Authentication.Data/obj/Debug/net8.0/Authentication.Data.sourcelink.json
+/home/orazio/Documenti/dotnet/test/Authentication.Data/obj/Debug/net8.0/Authentication.Data.dll
+/home/orazio/Documenti/dotnet/test/Authentication.Data/obj/Debug/net8.0/refint/Authentication.Data.dll
+/home/orazio/Documenti/dotnet/test/Authentication.Data/obj/Debug/net8.0/Authentication.Data.pdb
+/home/orazio/Documenti/dotnet/test/Authentication.Data/obj/Debug/net8.0/Authentication.Data.genruntimeconfig.cache
+/home/orazio/Documenti/dotnet/test/Authentication.Data/obj/Debug/net8.0/ref/Authentication.Data.dll
