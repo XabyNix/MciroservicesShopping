@@ -49,23 +49,32 @@ public class CartRepository : ICartRepository
         return _context.Carts.Any(c => c.Id == id);
     }
 
-    public void AddItemToCart(CartItem item)
+    public async Task AddItemToCart(CartItem item)
     {
-        _context.Items.Add(item);
+        /*var existingItem = _context.Items.FirstOrDefault(i => i.ProductId == item.ProductId);
+        if (existingItem != null)
+        {
+            existingItem.Quantity += item.Quantity;
+            _context.Items.Update(existingItem);
+            _context.SaveChanges();
+            return;
+        }*/
+        await _context.Items.AddAsync(item);
         _context.SaveChanges();
 
     }
-    public IEnumerable<CartItem> GetItemFromCart(Guid CartId)
+    public IEnumerable<CartItem> GetItemFromCart(Guid cartId)
     {
-        return _context.Items.Where(i => i.CartId == CartId).AsEnumerable();
+        return _context.Items.Where(i => i.CartId == cartId).AsEnumerable();
     }
 
-    public CartItem RemoveItemFromCart(Guid ItemId, Guid CartId)
+    public CartItem RemoveItemFromCart(Guid itemId, Guid cartId)
     {
-        var itemToRemove = _context.Items.FirstOrDefault(i => i.Id == ItemId && i.CartId == CartId);
+        var itemToRemove = _context.Items.FirstOrDefault(i => i.Id == itemId && i.CartId == cartId);
 
-        if (itemToRemove is not null)
-            _context.Items.Remove(itemToRemove);
+        if (itemToRemove == null) return null;
+        _context.Items.Remove(itemToRemove);
         return itemToRemove;
+
     }
 }

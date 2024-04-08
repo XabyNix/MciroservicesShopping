@@ -130,3 +130,11 @@
 /home/orazio/Documenti/dotnet/test/CartService/bin/Debug/net8.0/Grpc.Net.Client.dll
 /home/orazio/Documenti/dotnet/test/CartService/bin/Debug/net8.0/Grpc.Net.Common.dll
 /home/orazio/Documenti/dotnet/test/CartService/obj/Debug/net8.0/CartService.sourcelink.json
+/home/orazio/Documenti/dotnet/test/CartService/bin/Debug/net8.0/Microsoft.AspNetCore.Authentication.JwtBearer.dll
+/home/orazio/Documenti/dotnet/test/CartService/bin/Debug/net8.0/Microsoft.IdentityModel.Abstractions.dll
+/home/orazio/Documenti/dotnet/test/CartService/bin/Debug/net8.0/Microsoft.IdentityModel.JsonWebTokens.dll
+/home/orazio/Documenti/dotnet/test/CartService/bin/Debug/net8.0/Microsoft.IdentityModel.Logging.dll
+/home/orazio/Documenti/dotnet/test/CartService/bin/Debug/net8.0/Microsoft.IdentityModel.Protocols.dll
+/home/orazio/Documenti/dotnet/test/CartService/bin/Debug/net8.0/Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+/home/orazio/Documenti/dotnet/test/CartService/bin/Debug/net8.0/Microsoft.IdentityModel.Tokens.dll
+/home/orazio/Documenti/dotnet/test/CartService/bin/Debug/net8.0/System.IdentityModel.Tokens.Jwt.dll

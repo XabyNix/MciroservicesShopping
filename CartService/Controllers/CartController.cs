@@ -1,32 +1,25 @@
 ﻿using CartService.Repositories.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using CartService.Models;
-using System.Text.Json;
-using CartService.Profiles;
-using AutoMapper;
-using Google.Protobuf;
 
-namespace CartService;
+namespace CartService.Controllers;
 
 [Route("api/cart")]
 [ApiController]
 public class CartController : ControllerBase
 {
-    private readonly IMapper _mapper;
     private readonly ICartRepository _cartRepository;
-    private readonly HttpClient _client;
-    private readonly IMessageService _messageService;
+    //private readonly IMessageService _messageService;
     private readonly Services.CartService _catalogService;
 
-    public CartController(ICartRepository cartRepository, IHttpClientFactory client, IMapper mapper, IMessageService messageService)
+    public CartController(ICartRepository cartRepository)
     {
-        _mapper = mapper;
         _cartRepository = cartRepository;
-        _client = client.CreateClient();
-        _messageService = messageService;
-        _catalogService = new Services.CartService();
+        //_messageService = messageService;
+        _catalogService = new Services.CartService(); //gRPC for calling catalog service
     }
-
+    
+        /*---------------Endpoints---------------*/
 
     [HttpGet]
     public ActionResult<IEnumerable<Cart>> GetCarts()
@@ -34,7 +27,7 @@ public class CartController : ControllerBase
         var carts = _cartRepository.GetCarts();
         if (carts == null)
         {
-            return NotFound();
+            return NoContent();
         }
         return Ok(carts);
     }
@@ -76,38 +69,42 @@ public class CartController : ControllerBase
         return CreatedAtRoute("GetCart", new { cart.Id }, cart);
     }
 
-    [HttpPost("items")]
+    [HttpPost("item")]
     public async Task<ActionResult<CartItem>> AddItemToCart(CartItemRequest requestItem)
     {
-        if (!ModelState.IsValid) return BadRequest();
-
-        try
+        var catalogItem = await _catalogService.GetItem(requestItem.ItemId);
+        
+        
+        for (var i = 0; i < requestItem.Quantity; i++)
         {
-            var catalogItem = await _catalogService.GetItem(requestItem.CartId);
-            
-            CartItemResponse returnItem = new()
+            var cartItem = new CartItem
             {
-                ItemId = new Guid(catalogItem.ItemId),
+                ProductId = new Guid(catalogItem.ItemId),
                 CartId = requestItem.CartId,
                 Name = catalogItem.ProductName,
                 Price = catalogItem.Price,
-                Quantity = requestItem.Quantity
+                Description = catalogItem.Description,
             };
-            
-            return Ok(returnItem);
+            await _cartRepository.AddItemToCart(cartItem);
         }
-        catch (Exception e)
+        
+        var returnItem = new CartItemResponse()
         {
-            Console.WriteLine(e.Message);
-            Console.WriteLine(e.InnerException);
-        }
-
-        return Empty;
+            ItemId = new Guid(catalogItem.ItemId),
+            CartId = requestItem.CartId,
+            Name = catalogItem.ProductName,
+            Price = catalogItem.Price,
+            Quantity = requestItem.Quantity
+        };
+        
+        return Ok(returnItem);
     }
+    
 
-    [HttpGet("items")]
+    [HttpGet("item")]
     public IActionResult GetItemFromCart(Guid cartId)
     {
+        if (cartId == Guid.Empty) return BadRequest("Id cannot be empty");
         var items = _cartRepository.GetItemFromCart(cartId);
         if (items is null) return NotFound();
         return Ok(items);

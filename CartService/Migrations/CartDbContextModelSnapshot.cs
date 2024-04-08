@@ -46,25 +46,44 @@ namespace CartService.Migrations
                         .HasColumnType("char(36)");
 
                     b.Property<string>("Description")
-                        .HasColumnType("longtext");
+                        .HasMaxLength(256)
+                        .HasColumnType("varchar(256)");
 
-                    b.Property<Guid>("ItemId")
-                        .HasColumnType("char(36)");
-
-                    b.Property<float?>("Price")
+                    b.Property<string>("Name")
                         .IsRequired()
+                        .HasMaxLength(32)
+                        .HasColumnType("varchar(32)");
+
+                    b.Property<float>("Price")
                         .HasColumnType("float");
 
-                    b.Property<string>("ProductName")
-                        .IsRequired()
-                        .HasColumnType("longtext");
+                    b.Property<Guid>("ProductId")
+                        .HasColumnType("char(36)");
 
-                    b.Property<int?>("Quantity")
+                    b.Property<int>("Quantity")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
+                    b.HasIndex("CartId");
+
                     b.ToTable("Items");
+                });
+
+            modelBuilder.Entity("CartService.Models.CartItem", b =>
+                {
+                    b.HasOne("CartService.Models.Cart", "Cart")
+                        .WithMany("Items")
+                        .HasForeignKey("CartId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Cart");
+                });
+
+            modelBuilder.Entity("CartService.Models.Cart", b =>
+                {
+                    b.Navigation("Items");
                 });
 #pragma warning restore 612, 618
         }

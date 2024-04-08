@@ -8,7 +8,7 @@ public interface ICartRepository
     public Cart GetCart(Guid CartId);
     public Cart GetCartByUser(Guid UserId);
     public void AddCart(Cart cart);
-    public void AddItemToCart(CartItem ItemId);
+    public Task AddItemToCart(CartItem ItemId);
     public IEnumerable<CartItem> GetItemFromCart(Guid CartId);
     public CartItem RemoveItemFromCart(Guid ItemId, Guid CartId);
     public void UpdateCart(Cart cart);

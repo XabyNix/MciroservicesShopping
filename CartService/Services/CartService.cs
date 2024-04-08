@@ -13,7 +13,7 @@ public class CartService
 
     public async Task<ItemResponse> GetItem(Guid id)
     {
-        var reply = await _client.GetItemAsync(new ItemRequest() { ItemId = "3fa85f64-5717-4562-b3fc-2c963f66afa6" });
+        var reply = await _client.GetItemAsync(new ItemRequest() { ItemId = id.ToString() });
         return reply;
     }
 }
