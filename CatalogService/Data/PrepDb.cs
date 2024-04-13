@@ -1,7 +1,11 @@
 ﻿
 
+using System;
+using System.Linq;
 using CatalogService.Models;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace CatalogService.Data;
 

@@ -1,4 +1,6 @@
-﻿using CatalogService.Models;
+﻿using System;
+using System.Collections.Generic;
+using CatalogService.Models;
 
 namespace CatalogService;
 
