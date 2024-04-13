@@ -13,19 +13,24 @@ public class CatalogRepository : ICatalogRepository
         _context = context;
     }
 
-    IEnumerable<Item> ICatalogRepository.GetCatalog()
+    public IEnumerable<Item> GetCatalog()
     {
         var items = _context.CatalogItems.AsEnumerable<Item>();
         return items;
     }
 
-    Item? ICatalogRepository.GetCatalogItem(System.Guid id)
+    public Item? GetCatalogItem(System.Guid id)
     {
         var itemItem = _context.CatalogItems.FirstOrDefault(c => c.Id == id);
         return itemItem;
     }
 
-    Item? ICatalogRepository.GetCatalogItemByName(string name)
+    public IEnumerable<Item> GetItemsFromIds(IEnumerable<Guid> ids)
+    {
+        var items = _context.CatalogItems.Where(i => ids.Contains(i.Id)).AsEnumerable();
+        return items;
+    }
+    public Item? GetCatalogItemByName(string name)
     {
         var itemByName = _context.CatalogItems
         .FirstOrDefault
@@ -34,14 +39,14 @@ public class CatalogRepository : ICatalogRepository
         return itemByName;
     }
 
-    void ICatalogRepository.AddItem(Item item)
+    public void AddItem(Item item)
     {
         _context.CatalogItems.Add(item);
         _context.SaveChanges();
     }
 
 
-    void ICatalogRepository.UpdateItem(Item item)
+    public void UpdateItem(Item item)
     {
         var selectedItem = _context.CatalogItems.FirstOrDefault(c => c.Id == item.Id);
         if (selectedItem != null)
@@ -54,7 +59,7 @@ public class CatalogRepository : ICatalogRepository
 
     }
 
-    bool ICatalogRepository.ItemExists(Guid id)
+    public bool ItemExists(Guid id)
     {
         return _context.CatalogItems.Any(c => c.Id == id);
     }

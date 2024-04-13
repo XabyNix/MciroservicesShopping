@@ -30,6 +30,21 @@ public class CatalogService : Catalog.CatalogBase
             Price = itemFound.Price,
             ProductName = itemFound.ProductName
         };
+        
         return Task.FromResult(responseItem);
     }
+
+    public override Task<CheckItemResponse> CheckItems(CheckItemRequest request, ServerCallContext context)
+    {
+
+        var itemsIdsToCheck = request.Items.Select(i => new Guid(i.ItemId)).ToList();
+
+        var itemsExisting = _repository.GetItemsFromIds(itemsIdsToCheck).ToList();
+
+        bool okCheck = itemsIdsToCheck.Count == itemsExisting.Count;
+
+        return Task.FromResult(new CheckItemResponse { Ok = okCheck });
+
+    }
+
 }

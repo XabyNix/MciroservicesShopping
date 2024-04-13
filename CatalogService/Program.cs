@@ -1,5 +1,4 @@
 using CatalogService;
-using CatalogService.AsyncMessaging;
 using CatalogService.Data;
 using Microsoft.EntityFrameworkCore;
 
@@ -7,14 +6,23 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-builder.Services.AddControllers();
+//dbContext
+var connectionString = builder.Configuration.GetConnectionString("Aws");
+builder.Services.AddDbContext<CatalogDbContext>(
+    options => { options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)); });
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddDbContext<CatalogDbContext>(options => options.UseMySQL(builder.Configuration.GetConnectionString("DefaultConnection")!));
-builder.Services.AddScoped<ICatalogRepository, CatalogRepository>();
-builder.Services.AddHostedService<MessageService>();
+
+/*--------------------------------------------------------*/
+
+builder.Services.AddControllers();
 builder.Services.AddGrpc();
+
+//builder.Services.AddHostedService<MessageService>();
+builder.Services.AddScoped<ICatalogRepository, CatalogRepository>();
+
 
 var app = builder.Build();
 
@@ -28,7 +36,7 @@ if (app.Environment.IsDevelopment())
 app.MapGrpcService<CatalogService.Services.CatalogService>();
 //app.UseHttpsRedirection();
 app.UseAuthorization();
-//PrepDb.PrepPopulation(app, builder.Environment.IsProduction());
+PrepDb.PrepPopulation(app, builder.Environment.IsProduction());
 
 app.MapControllers();
 app.Run();

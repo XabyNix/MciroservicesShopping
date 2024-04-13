@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.EntityFrameworkCore;
 
 namespace CartService.Models
 {
@@ -10,7 +11,7 @@ namespace CartService.Models
         public Guid Id { get; set; }
         public Guid CreatedBy { get; set; }
         public DateTime CreatedAt { get; set; }
-        public ICollection<CartItem> Items { get; set; } = new List<CartItem>();
+        public IEnumerable<CartItem> Items { get; set; } = new List<CartItem>();
 
     }
 }

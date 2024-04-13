@@ -54,6 +54,7 @@ public static class PrepDb
                     ProductName = "Afftettato",
                     Price = 150,
                     Description = "Buono ma attento che fa ingrassare",
+                    Quantity = 2,
                 }
 
             );

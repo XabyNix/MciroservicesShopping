@@ -1,17 +1,19 @@
 using CartService;
-using CartService.Profiles;
 using CartService.Repositories;
 using CartService.Repositories.Interfaces;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Authorization;
+
 using Microsoft.EntityFrameworkCore;
 var builder = WebApplication.CreateBuilder(args);
 
+
 //dbContext
-builder.Services.AddDbContext<CartDbContext>(options => { options.UseMySQL(builder.Configuration.GetConnectionString("DefaultConnection")!); });
+var connectionString = builder.Configuration.GetConnectionString("Aws");
+builder.Services.AddDbContext<CartDbContext>(
+    options => { options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)); });
 
 // Add services to the container.
 builder.Services.AddScoped<ICartRepository, CartRepository>();
+builder.Services.AddScoped<IITemRepository, ItemRepository>();
 builder.Services.AddSingleton<IMessageService, MessageService>();
 builder.Services.AddControllers();
 

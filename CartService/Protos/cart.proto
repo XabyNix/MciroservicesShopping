@@ -5,9 +5,12 @@ option csharp_namespace = "CartService";
 package itemDetail;
 
 service Catalog {
+
   rpc GetItem (ItemRequest) returns (ItemResponse);
+  rpc CheckItems(CheckItemRequest) returns (CheckItemResponse);
 }
 
+//Single item getting request
 message ItemRequest{
   string ItemId = 1;
 }
@@ -17,4 +20,12 @@ message ItemResponse{
   string ProductName = 2;
   float Price = 3;
   string Description = 4;
+}
+
+//Types for items existence checking
+message CheckItemRequest{
+  repeated ItemRequest items = 1;
+}
+message CheckItemResponse{
+  bool Ok = 1;
 }

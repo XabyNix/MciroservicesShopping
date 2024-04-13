@@ -5,7 +5,6 @@
 /home/orazio/Documenti/dotnet/test/CatalogService/bin/Debug/net8.0/CatalogService.runtimeconfig.json
 /home/orazio/Documenti/dotnet/test/CatalogService/bin/Debug/net8.0/CatalogService.dll
 /home/orazio/Documenti/dotnet/test/CatalogService/bin/Debug/net8.0/CatalogService.pdb
-/home/orazio/Documenti/dotnet/test/CatalogService/bin/Debug/net8.0/BouncyCastle.Cryptography.dll
 /home/orazio/Documenti/dotnet/test/CatalogService/bin/Debug/net8.0/Google.Protobuf.dll
 /home/orazio/Documenti/dotnet/test/CatalogService/bin/Debug/net8.0/Grpc.AspNetCore.Server.dll
 /home/orazio/Documenti/dotnet/test/CatalogService/bin/Debug/net8.0/Grpc.AspNetCore.Server.ClientFactory.dll
@@ -14,9 +13,6 @@
 /home/orazio/Documenti/dotnet/test/CatalogService/bin/Debug/net8.0/Grpc.Net.ClientFactory.dll
 /home/orazio/Documenti/dotnet/test/CatalogService/bin/Debug/net8.0/Grpc.Net.Common.dll
 /home/orazio/Documenti/dotnet/test/CatalogService/bin/Debug/net8.0/Humanizer.dll
-/home/orazio/Documenti/dotnet/test/CatalogService/bin/Debug/net8.0/K4os.Compression.LZ4.dll
-/home/orazio/Documenti/dotnet/test/CatalogService/bin/Debug/net8.0/K4os.Compression.LZ4.Streams.dll
-/home/orazio/Documenti/dotnet/test/CatalogService/bin/Debug/net8.0/K4os.Hash.xxHash.dll
 /home/orazio/Documenti/dotnet/test/CatalogService/bin/Debug/net8.0/Microsoft.Bcl.AsyncInterfaces.dll
 /home/orazio/Documenti/dotnet/test/CatalogService/bin/Debug/net8.0/Microsoft.CodeAnalysis.dll
 /home/orazio/Documenti/dotnet/test/CatalogService/bin/Debug/net8.0/Microsoft.CodeAnalysis.CSharp.dll
@@ -28,10 +24,7 @@
 /home/orazio/Documenti/dotnet/test/CatalogService/bin/Debug/net8.0/Microsoft.EntityFrameworkCore.Relational.dll
 /home/orazio/Documenti/dotnet/test/CatalogService/bin/Debug/net8.0/Microsoft.Extensions.DependencyModel.dll
 /home/orazio/Documenti/dotnet/test/CatalogService/bin/Debug/net8.0/Microsoft.OpenApi.dll
-/home/orazio/Documenti/dotnet/test/CatalogService/bin/Debug/net8.0/Microsoft.Win32.SystemEvents.dll
 /home/orazio/Documenti/dotnet/test/CatalogService/bin/Debug/net8.0/Mono.TextTemplating.dll
-/home/orazio/Documenti/dotnet/test/CatalogService/bin/Debug/net8.0/MySql.Data.dll
-/home/orazio/Documenti/dotnet/test/CatalogService/bin/Debug/net8.0/MySql.EntityFrameworkCore.dll
 /home/orazio/Documenti/dotnet/test/CatalogService/bin/Debug/net8.0/RabbitMQ.Client.dll
 /home/orazio/Documenti/dotnet/test/CatalogService/bin/Debug/net8.0/Swashbuckle.AspNetCore.Swagger.dll
 /home/orazio/Documenti/dotnet/test/CatalogService/bin/Debug/net8.0/Swashbuckle.AspNetCore.SwaggerGen.dll
@@ -42,12 +35,6 @@
 /home/orazio/Documenti/dotnet/test/CatalogService/bin/Debug/net8.0/System.Composition.Hosting.dll
 /home/orazio/Documenti/dotnet/test/CatalogService/bin/Debug/net8.0/System.Composition.Runtime.dll
 /home/orazio/Documenti/dotnet/test/CatalogService/bin/Debug/net8.0/System.Composition.TypedParts.dll
-/home/orazio/Documenti/dotnet/test/CatalogService/bin/Debug/net8.0/System.Configuration.ConfigurationManager.dll
-/home/orazio/Documenti/dotnet/test/CatalogService/bin/Debug/net8.0/System.Drawing.Common.dll
-/home/orazio/Documenti/dotnet/test/CatalogService/bin/Debug/net8.0/System.Security.Cryptography.ProtectedData.dll
-/home/orazio/Documenti/dotnet/test/CatalogService/bin/Debug/net8.0/System.Security.Permissions.dll
-/home/orazio/Documenti/dotnet/test/CatalogService/bin/Debug/net8.0/System.Windows.Extensions.dll
-/home/orazio/Documenti/dotnet/test/CatalogService/bin/Debug/net8.0/ZstdSharp.dll
 /home/orazio/Documenti/dotnet/test/CatalogService/bin/Debug/net8.0/cs/Microsoft.CodeAnalysis.resources.dll
 /home/orazio/Documenti/dotnet/test/CatalogService/bin/Debug/net8.0/de/Microsoft.CodeAnalysis.resources.dll
 /home/orazio/Documenti/dotnet/test/CatalogService/bin/Debug/net8.0/es/Microsoft.CodeAnalysis.resources.dll
@@ -100,16 +87,6 @@
 /home/orazio/Documenti/dotnet/test/CatalogService/bin/Debug/net8.0/tr/Microsoft.CodeAnalysis.Workspaces.resources.dll
 /home/orazio/Documenti/dotnet/test/CatalogService/bin/Debug/net8.0/zh-Hans/Microsoft.CodeAnalysis.Workspaces.resources.dll
 /home/orazio/Documenti/dotnet/test/CatalogService/bin/Debug/net8.0/zh-Hant/Microsoft.CodeAnalysis.Workspaces.resources.dll
-/home/orazio/Documenti/dotnet/test/CatalogService/bin/Debug/net8.0/runtimes/win/lib/netcoreapp3.0/Microsoft.Win32.SystemEvents.dll
-/home/orazio/Documenti/dotnet/test/CatalogService/bin/Debug/net8.0/runtimes/win-x64/native/comerr64.dll
-/home/orazio/Documenti/dotnet/test/CatalogService/bin/Debug/net8.0/runtimes/win-x64/native/gssapi64.dll
-/home/orazio/Documenti/dotnet/test/CatalogService/bin/Debug/net8.0/runtimes/win-x64/native/k5sprt64.dll
-/home/orazio/Documenti/dotnet/test/CatalogService/bin/Debug/net8.0/runtimes/win-x64/native/krb5_64.dll
-/home/orazio/Documenti/dotnet/test/CatalogService/bin/Debug/net8.0/runtimes/win-x64/native/krbcc64.dll
-/home/orazio/Documenti/dotnet/test/CatalogService/bin/Debug/net8.0/runtimes/unix/lib/netcoreapp3.0/System.Drawing.Common.dll
-/home/orazio/Documenti/dotnet/test/CatalogService/bin/Debug/net8.0/runtimes/win/lib/netcoreapp3.0/System.Drawing.Common.dll
-/home/orazio/Documenti/dotnet/test/CatalogService/bin/Debug/net8.0/runtimes/win/lib/netstandard2.0/System.Security.Cryptography.ProtectedData.dll
-/home/orazio/Documenti/dotnet/test/CatalogService/bin/Debug/net8.0/runtimes/win/lib/netcoreapp3.0/System.Windows.Extensions.dll
 /home/orazio/Documenti/dotnet/test/CatalogService/obj/Debug/net8.0/CatalogService.csproj.AssemblyReference.cache
 /home/orazio/Documenti/dotnet/test/CatalogService/obj/Debug/net8.0/CatalogService.GeneratedMSBuildEditorConfig.editorconfig
 /home/orazio/Documenti/dotnet/test/CatalogService/obj/Debug/net8.0/CatalogService.AssemblyInfoInputs.cache
@@ -132,3 +109,5 @@
 /home/orazio/Documenti/dotnet/test/CatalogService/obj/Debug/net8.0/CatalogService.genruntimeconfig.cache
 /home/orazio/Documenti/dotnet/test/CatalogService/obj/Debug/net8.0/ref/CatalogService.dll
 /home/orazio/Documenti/dotnet/test/CatalogService/obj/Debug/net8.0/CatalogService.sourcelink.json
+/home/orazio/Documenti/dotnet/test/CatalogService/bin/Debug/net8.0/MySqlConnector.dll
+/home/orazio/Documenti/dotnet/test/CatalogService/bin/Debug/net8.0/Pomelo.EntityFrameworkCore.MySql.dll

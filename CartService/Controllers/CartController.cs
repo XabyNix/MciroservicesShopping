@@ -1,4 +1,8 @@
-﻿using CartService.Repositories.Interfaces;
+﻿using System.Data;
+using CartService.DTO;
+using CartService.DTO.InternalComunication;
+using CartService.InternalComunication;
+using CartService.Repositories.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using CartService.Models;
 
@@ -9,14 +13,13 @@ namespace CartService.Controllers;
 public class CartController : ControllerBase
 {
     private readonly ICartRepository _cartRepository;
-    //private readonly IMessageService _messageService;
-    private readonly Services.CartService _catalogService;
+    private readonly IMessageService _messageService;
 
-    public CartController(ICartRepository cartRepository)
+    public CartController(ICartRepository cartRepository, IMessageService messageService)
     {
         _cartRepository = cartRepository;
-        //_messageService = messageService;
-        _catalogService = new Services.CartService(); //gRPC for calling catalog service
+        _messageService = messageService;
+        
     }
     
         /*---------------Endpoints---------------*/
@@ -25,10 +28,7 @@ public class CartController : ControllerBase
     public ActionResult<IEnumerable<Cart>> GetCarts()
     {
         var carts = _cartRepository.GetCarts();
-        if (carts == null)
-        {
-            return NoContent();
-        }
+        
         return Ok(carts);
     }
 
@@ -36,11 +36,21 @@ public class CartController : ControllerBase
     public ActionResult<Cart> GetCart(Guid id)
     {
         var cart = _cartRepository.GetCart(id);
-        if (cart == null)
+        var itemsDto = cart.Items.Select(i => new CartItemResponse()
         {
-            return NotFound();
-        }
-        return Ok(cart);
+            Name = i.Name,
+            Price = i.Price,
+            CartId = i.CartId,
+            ProductId = i.ProductId,
+        });
+        var cartDto = new CartResponseDto()
+        {
+            CreatedAt = cart.CreatedAt,
+            CreatedBy = cart.CreatedBy,
+            Items = itemsDto.ToList(),
+        };
+
+        return Ok(cartDto);
     }
 
     [HttpGet("user/{id:guid}")]
@@ -55,76 +65,67 @@ public class CartController : ControllerBase
     }
 
     [HttpPost]
-    public IActionResult AddCart([FromBody] Cart cart)
+    public IActionResult AddCart([FromQuery] CartRequestDto cartRequest)
     {
-        if (cart == null) return BadRequest();
-        _cartRepository.AddCart(cart);
-        return CreatedAtRoute("GetCart", new { cart.Id }, cart);
-    }
-
-    [HttpPut]
-    public IActionResult UpdateCart([FromBody] Cart cart)
-    {
-        _cartRepository.UpdateCart(cart);
-        return CreatedAtRoute("GetCart", new { cart.Id }, cart);
-    }
-
-    [HttpPost("item")]
-    public async Task<ActionResult<CartItem>> AddItemToCart(CartItemRequest requestItem)
-    {
-        var catalogItem = await _catalogService.GetItem(requestItem.ItemId);
-        
-        
-        for (var i = 0; i < requestItem.Quantity; i++)
+        if (cartRequest.CreatedBy == Guid.Empty)
         {
-            var cartItem = new CartItem
-            {
-                ProductId = new Guid(catalogItem.ItemId),
-                CartId = requestItem.CartId,
-                Name = catalogItem.ProductName,
-                Price = catalogItem.Price,
-                Description = catalogItem.Description,
-            };
-            await _cartRepository.AddItemToCart(cartItem);
+            return BadRequest();
         }
         
-        var returnItem = new CartItemResponse()
+        var cart = new Cart()
         {
-            ItemId = new Guid(catalogItem.ItemId),
-            CartId = requestItem.CartId,
-            Name = catalogItem.ProductName,
-            Price = catalogItem.Price,
-            Quantity = requestItem.Quantity
+            CreatedAt = DateTime.Now,
+            CreatedBy = cartRequest.CreatedBy,
         };
+
+        try
+        {
+            _cartRepository.AddCart(cart);
+        }
+        catch (DuplicateNameException e)
+        {
+            return Conflict(e.Message);
+        }
+
         
-        return Ok(returnItem);
+        return CreatedAtRoute("GetCart", new { cart.Id }, new CartResponseDto());
     }
     
 
-    [HttpGet("item")]
-    public IActionResult GetItemFromCart(Guid cartId)
+    [HttpGet("process")]
+    public IActionResult Process([FromQuery]Guid cartId)
     {
-        if (cartId == Guid.Empty) return BadRequest("Id cannot be empty");
-        var items = _cartRepository.GetItemFromCart(cartId);
-        if (items is null) return NotFound();
-        return Ok(items);
-    }
-
-    [HttpDelete]
-    public IActionResult RemoveItemFromCart(Guid ItemId, Guid CartId)
-    {
-        var item = _cartRepository.RemoveItemFromCart(ItemId, CartId);
-
-        CartItem itemDTO = new()
+        //If cartId is empty return a bad request with a message
+        if (cartId == Guid.Empty)
         {
-            CartId = item.CartId,
-            ProductId = item.ProductId,
-            Price = item.Price,
-            Name = item.Name,
-            Quantity = item.Quantity,
+            return BadRequest("You need to provide the <id> of the cart you want to checkout");
+        }
+        
+        //Get the cart from cartService via repository call
+        var cart = _cartRepository.GetCart(cartId);
+        
+        //Map into a DTO
+        var itemsDto = cart.Items.Select(i => new CartItemResponse()
+        {
+            Name = i.Name,
+            Price = i.Price,
+            CartId = i.CartId,
+            ProductId = i.ProductId,
+        });
+        
+        //Create the event to send into message queue
+        var message = new PlaceOrderEvent()
+        {
+            //TODO:Add Discount 
+            CommandType = CommandTypes.PlaceOrder,
+            OrderItems = itemsDto,
         };
-        return Ok(itemDTO);
-    }
 
+        _messageService.PublishMessage(message);
+        return Ok("Order added to queue and will be processed!");
+    }
+    
+    
+    
 
 }

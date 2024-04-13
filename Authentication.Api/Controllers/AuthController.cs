@@ -16,6 +16,12 @@ public class AuthController : ControllerBase
         _identityService = identityService;
     }
 
+    [HttpGet("test")]
+    public IActionResult Test()
+    {
+        return Ok("Works!");
+    }
+    
     [HttpPost("login")]
     public async Task<IActionResult> Login(LoginRequest loginRequest)
     {

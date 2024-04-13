@@ -49,6 +49,10 @@ namespace CartService {
     static readonly grpc::Marshaller<global::CartService.ItemRequest> __Marshaller_itemDetail_ItemRequest = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::CartService.ItemRequest.Parser));
     [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
     static readonly grpc::Marshaller<global::CartService.ItemResponse> __Marshaller_itemDetail_ItemResponse = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::CartService.ItemResponse.Parser));
+    [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+    static readonly grpc::Marshaller<global::CartService.CheckItemRequest> __Marshaller_itemDetail_CheckItemRequest = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::CartService.CheckItemRequest.Parser));
+    [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+    static readonly grpc::Marshaller<global::CartService.CheckItemResponse> __Marshaller_itemDetail_CheckItemResponse = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::CartService.CheckItemResponse.Parser));
 
     [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
     static readonly grpc::Method<global::CartService.ItemRequest, global::CartService.ItemResponse> __Method_GetItem = new grpc::Method<global::CartService.ItemRequest, global::CartService.ItemResponse>(
@@ -57,6 +61,14 @@ namespace CartService {
         "GetItem",
         __Marshaller_itemDetail_ItemRequest,
         __Marshaller_itemDetail_ItemResponse);
+
+    [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+    static readonly grpc::Method<global::CartService.CheckItemRequest, global::CartService.CheckItemResponse> __Method_CheckItems = new grpc::Method<global::CartService.CheckItemRequest, global::CartService.CheckItemResponse>(
+        grpc::MethodType.Unary,
+        __ServiceName,
+        "CheckItems",
+        __Marshaller_itemDetail_CheckItemRequest,
+        __Marshaller_itemDetail_CheckItemResponse);
 
     /// <summary>Service descriptor</summary>
     public static global::Google.Protobuf.Reflection.ServiceDescriptor Descriptor
@@ -110,6 +122,26 @@ namespace CartService {
       public virtual grpc::AsyncUnaryCall<global::CartService.ItemResponse> GetItemAsync(global::CartService.ItemRequest request, grpc::CallOptions options)
       {
         return CallInvoker.AsyncUnaryCall(__Method_GetItem, null, options, request);
+      }
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual global::CartService.CheckItemResponse CheckItems(global::CartService.CheckItemRequest request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      {
+        return CheckItems(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual global::CartService.CheckItemResponse CheckItems(global::CartService.CheckItemRequest request, grpc::CallOptions options)
+      {
+        return CallInvoker.BlockingUnaryCall(__Method_CheckItems, null, options, request);
+      }
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual grpc::AsyncUnaryCall<global::CartService.CheckItemResponse> CheckItemsAsync(global::CartService.CheckItemRequest request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      {
+        return CheckItemsAsync(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual grpc::AsyncUnaryCall<global::CartService.CheckItemResponse> CheckItemsAsync(global::CartService.CheckItemRequest request, grpc::CallOptions options)
+      {
+        return CallInvoker.AsyncUnaryCall(__Method_CheckItems, null, options, request);
       }
       /// <summary>Creates a new instance of client from given <c>ClientBaseConfiguration</c>.</summary>
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]

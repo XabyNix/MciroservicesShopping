@@ -1,0 +1,31 @@
+syntax = "proto3";
+
+option csharp_namespace = "OrderService";
+
+package itemDetail;
+
+service Catalog {
+
+  rpc GetItem (ItemRequest) returns (ItemResponse);
+  rpc CheckItems(CheckItemRequest) returns (CheckItemResponse);
+}
+
+//Single item getting request
+message ItemRequest{
+  string ItemId = 1;
+}
+
+message ItemResponse{
+  string ItemId = 1;
+  string ProductName = 2;
+  float Price = 3;
+  string Description = 4;
+}
+
+//Types for items existence checking
+message CheckItemRequest{
+  repeated string items = 1;
+}
+message CheckItemResponse{
+  bool Ok = 1;
+}

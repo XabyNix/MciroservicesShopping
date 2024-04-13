@@ -1,16 +1,19 @@
-﻿using System.Text.Json;
+﻿using System.Data;
+using System.Text.Json;
+using CartService.DTO;
 using CartService.Models;
 using CartService.Repositories.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace CartService.Repositories;
 
 public class CartRepository : ICartRepository
 {
     private readonly CartDbContext _context;
-    private readonly HttpClient _client;
+    //private readonly HttpClient _client;
     public CartRepository(CartDbContext context, IHttpClientFactory client)
     {
-        _client = client.CreateClient();
+        //_client = client.CreateClient();
         _context = context;
     }
 
@@ -20,28 +23,29 @@ public class CartRepository : ICartRepository
         return carts;
     }
 
-    public Cart GetCart(Guid CartId)
+    public Cart GetCart(Guid cartId)
     {
-        var cartFound = _context.Carts.FirstOrDefault(c => c.Id == CartId)!;
+        var cartFound = _context.Carts.Include(c => c.Items)
+            .FirstOrDefault(c => c.Id == cartId)!;
         return cartFound;
     }
 
-    public Cart GetCartByUser(Guid UserId)
+    public Cart GetCartByUser(Guid userId)
     {
-        var userCart = _context.Carts.FirstOrDefault(c => c.CreatedBy == UserId)!;
+        var userCart = _context.Carts.FirstOrDefault(c => c.CreatedBy == userId)!;
         return userCart;
     }
 
-    public void AddCart(Cart Cart)
+    public void AddCart(Cart cart)
     {
-        _context.Carts.Add(Cart);
-        _context.SaveChanges();
-    }
 
-    public void UpdateCart(Cart Cart)
-    {
-        _context.Carts.Update(Cart);
+        if (_context.Carts.Any(c => c.CreatedBy == cart.CreatedBy))
+        {
+            throw new DuplicateNameException();
+        }
+        _context.Carts.Add(cart);
         _context.SaveChanges();
+        
     }
 
     public bool CartExists(Guid id)
@@ -49,32 +53,5 @@ public class CartRepository : ICartRepository
         return _context.Carts.Any(c => c.Id == id);
     }
 
-    public async Task AddItemToCart(CartItem item)
-    {
-        /*var existingItem = _context.Items.FirstOrDefault(i => i.ProductId == item.ProductId);
-        if (existingItem != null)
-        {
-            existingItem.Quantity += item.Quantity;
-            _context.Items.Update(existingItem);
-            _context.SaveChanges();
-            return;
-        }*/
-        await _context.Items.AddAsync(item);
-        _context.SaveChanges();
-
-    }
-    public IEnumerable<CartItem> GetItemFromCart(Guid cartId)
-    {
-        return _context.Items.Where(i => i.CartId == cartId).AsEnumerable();
-    }
-
-    public CartItem RemoveItemFromCart(Guid itemId, Guid cartId)
-    {
-        var itemToRemove = _context.Items.FirstOrDefault(i => i.Id == itemId && i.CartId == cartId);
-
-        if (itemToRemove == null) return null;
-        _context.Items.Remove(itemToRemove);
-        return itemToRemove;
-
-    }
+    
 }

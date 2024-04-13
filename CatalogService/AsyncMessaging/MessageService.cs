@@ -1,4 +1,6 @@
 ﻿using System.Text;
+using System.Text.Json;
+using CatalogService.Models;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 
@@ -14,31 +16,30 @@ public class MessageService : IHostedService
     {
         factory = new ConnectionFactory
         {
-            Uri = new Uri("amqps://b-670600e9-2e2d-4f9d-9be6-6c409e3dd5d9.mq.eu-west-1.amazonaws.com:5671"),
-            UserName = "orazio",
-            Password = "ciaociao0011"
+            HostName = "localhost",
+            Port = 5671
         };
 
         if (_connection == null || !_connection.IsOpen) _connection = factory.CreateConnection();
     }
 
 
-    public void Recive()
+    private void Recive()
     {
 
         var channel = _connection.CreateModel();
-        channel.ExchangeDeclare(exchange: "user", ExchangeType.Topic);
+        channel.ExchangeDeclare(exchange: "cart", ExchangeType.Topic);
 
         var queue = channel.QueueDeclare().QueueName;
 
-        channel.QueueBind(queue, "user", "cart.add");
+        channel.QueueBind(queue, "cart", "cart.checkout");
         System.Console.WriteLine("--> Queue name: " + queue);
         var consumer = new EventingBasicConsumer(channel);
         consumer.Received += (model, ea) =>
         {
             byte[] body = ea.Body.ToArray();
-            var message = Encoding.UTF8.GetString(body);
-            System.Console.WriteLine($"--> Message recived: {message}");
+            var message = JsonSerializer.Deserialize<Item>(body);
+            System.Console.WriteLine($"--> Message received: {message}");
         };
 
         channel.BasicConsume(queue, autoAck: true, consumer);

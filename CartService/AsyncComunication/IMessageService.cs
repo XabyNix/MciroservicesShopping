@@ -1,6 +1,9 @@
-﻿namespace CartService;
+﻿using CartService.DTO.InternalComunication;
+using CartService.InternalComunication;
+
+namespace CartService;
 
 public interface IMessageService
 {
-    public void Send(string message);
+    public void PublishMessage(PlaceOrderEvent message);
 }
