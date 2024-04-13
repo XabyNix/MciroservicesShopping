@@ -1,13 +1,10 @@
-using OrderService.Models;
+namespace OrderService.Models.DTO;
 
-namespace OrderService.DTO;
-
-public record OrderDto
+public class OrderDto
 {
     public Guid OrderId { get; set; }
-    public Order.OrderStatus status { get; set; }
-    public int DiscountPerc { get; set; } = 0;
+    public Guid UserId { get; set; }
+    public OrderStatus Status { get; set; }
     public float Total { get; set; }
-    public IEnumerable<CartItem> Items { get; set; }
-    
+    public IEnumerable<OrderItemDto> Items { get; set; }
 }

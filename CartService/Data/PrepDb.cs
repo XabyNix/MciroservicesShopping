@@ -1,6 +1,6 @@
 ﻿using CartService.Models;
 
-namespace CartService;
+namespace CartService.Data;
 
 public static class PrepDb
 {

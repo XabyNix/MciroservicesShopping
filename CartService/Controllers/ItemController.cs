@@ -1,6 +1,7 @@
-using CartService.DTO;
 using CartService.Models;
+using CartService.Models.Dto;
 using CartService.Repositories.Interfaces;
+using Common.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CartService.Controllers;
@@ -9,21 +10,21 @@ namespace CartService.Controllers;
 [ApiController]
 public class ItemController : ControllerBase
 {
-    private readonly IITemRepository _itemRepository;
     private readonly Services.CartService _catalogService;
+    private readonly IItemRepository _itemRepository;
 
-    public ItemController(IITemRepository itemRepository)
+    public ItemController(IItemRepository itemRepository)
     {
         _itemRepository = itemRepository;
         _catalogService = new Services.CartService(); //gRPC for calling catalog service
     }
-    
+
     [HttpPost]
-    public async Task<ActionResult<CartItem>> AddItemToCart([FromQuery]CartItemRequest requestItem)
+    public async Task<ActionResult<CartItem>> AddItemToCart([FromBody] CartItemRequest requestItem)
     {
         var catalogItem = await _catalogService.GetItem(requestItem.ItemId);
-        
-        
+
+
         for (var i = 0; i < requestItem.Quantity; i++)
         {
             var cartItem = new CartItem
@@ -33,11 +34,12 @@ public class ItemController : ControllerBase
                 Name = catalogItem.ProductName,
                 Price = catalogItem.Price,
                 Description = catalogItem.Description,
+                Quantity = requestItem.Quantity
             };
             await _itemRepository.AddItemToCart(cartItem);
         }
-        
-        var returnItem = new CartItemResponse()
+
+        var returnItem = new CartItemDto
         {
             ProductId = new Guid(catalogItem.ItemId),
             CartId = requestItem.CartId,
@@ -48,7 +50,7 @@ public class ItemController : ControllerBase
         CreatedAtRoute("GetCart", new { returnItem.CartId }, returnItem);
         return Ok(returnItem);
     }
-    
+
 
     [HttpDelete]
     public IActionResult RemoveItemFromCart(Guid itemId, Guid cartId)
@@ -61,7 +63,7 @@ public class ItemController : ControllerBase
             ProductId = item.ProductId,
             Price = item.Price,
             Name = item.Name,
-            Quantity = item.Quantity,
+            Quantity = item.Quantity
         };
         return Ok(itemDto);
     }

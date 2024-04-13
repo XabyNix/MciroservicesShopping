@@ -5,9 +5,11 @@ namespace CatalogService.Data;
 
 public class CatalogDbContext : DbContext
 {
-    public DbSet<Item> CatalogItems { get; set; }
-    public CatalogDbContext(DbContextOptions options) : base(options)
+    public CatalogDbContext(DbContextOptions<CatalogDbContext> options) : base(options)
     {
-
     }
+
+
+    public DbSet<Item> CatalogItems { get; set; }
+    public DbSet<ReservedItem> ReservedItems { get; set; }
 }

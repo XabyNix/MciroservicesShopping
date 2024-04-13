@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using CartService.Models;
 
-namespace CartService;
+namespace CartService.Data;
 
 public class CartDbContext : DbContext
 {
@@ -15,8 +15,8 @@ public class CartDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
-        builder.Entity<Cart>().HasIndex(c => c.CreatedBy).IsUnique();
         base.OnModelCreating(builder);
+        builder.Entity<Cart>().HasIndex(c => c.CreatedBy).IsUnique();
     }
 }
 

@@ -1,6 +1,5 @@
 ﻿using System.Data;
-using System.Text.Json;
-using CartService.DTO;
+using CartService.Data;
 using CartService.Models;
 using CartService.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;

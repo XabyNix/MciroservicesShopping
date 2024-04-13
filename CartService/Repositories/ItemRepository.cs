@@ -1,9 +1,11 @@
+using CartService.Data;
 using CartService.Models;
 using CartService.Repositories.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace CartService.Repositories;
 
-public class ItemRepository : IITemRepository
+public class ItemRepository : IItemRepository
 {
     private readonly CartDbContext _context;
 
@@ -11,15 +13,22 @@ public class ItemRepository : IITemRepository
     {
         _context = context;
     }
+
     public async Task AddItemToCart(CartItem item)
     {
-        await _context.Items.AddAsync(item);
+        var itemExists = await _context.Items.FirstOrDefaultAsync(i => i.Id == item.Id);
+        if (itemExists != null)
+        {
+            itemExists.Quantity += item.Quantity;
+            _context.Items.Update(itemExists);
+        }
+        else
+        {
+            await _context.Items.AddAsync(item);
+        }
+
         await _context.SaveChangesAsync();
     }
-    /*public IEnumerable<CartItem> GetItemFromCart(Guid cartId)
-    {
-        return _context.Items.Where(i => i.CartId == cartId).AsEnumerable();
-    }*/
 
     public CartItem RemoveItemFromCart(Guid itemId, Guid cartId)
     {
@@ -28,6 +37,5 @@ public class ItemRepository : IITemRepository
         if (itemToRemove == null) return null;
         _context.Items.Remove(itemToRemove);
         return itemToRemove;
-
     }
 }

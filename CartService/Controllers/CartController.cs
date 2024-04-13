@@ -1,10 +1,11 @@
 ﻿using System.Data;
-using CartService.DTO;
-using CartService.DTO.InternalComunication;
-using CartService.InternalComunication;
+using CartService.AsyncMessage;
 using CartService.Repositories.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using CartService.Models;
+using CartService.Models.Dto;
+using Common.Models;
+using Common.Models.Order;
 
 namespace CartService.Controllers;
 
@@ -25,29 +26,36 @@ public class CartController : ControllerBase
         /*---------------Endpoints---------------*/
 
     [HttpGet]
-    public ActionResult<IEnumerable<Cart>> GetCarts()
+    public ActionResult<IEnumerable<CartResponseDto>> GetCarts()
     {
         var carts = _cartRepository.GetCarts();
+
+        var cartDto = carts.Select(c => new CartResponseDto()
+        {
+            Id = c.Id,
+            CreatedBy = c.CreatedBy,
+            CreatedAt = c.CreatedAt,
+            Items = c.Items,
+        });
         
-        return Ok(carts);
+        return Ok(cartDto);
     }
 
     [HttpGet("{id:guid}", Name = "GetCart")]
     public ActionResult<Cart> GetCart(Guid id)
     {
         var cart = _cartRepository.GetCart(id);
-        var itemsDto = cart.Items.Select(i => new CartItemResponse()
-        {
-            Name = i.Name,
-            Price = i.Price,
-            CartId = i.CartId,
-            ProductId = i.ProductId,
-        });
         var cartDto = new CartResponseDto()
         {
             CreatedAt = cart.CreatedAt,
             CreatedBy = cart.CreatedBy,
-            Items = itemsDto.ToList(),
+            Items = cart.Items.Select(i=> new CartItemDto()
+            {
+                Name = i.Name,
+                Price = i.Price,
+                CartId = i.CartId,
+                ProductId = i.ProductId, 
+            }),
         };
 
         return Ok(cartDto);
@@ -65,7 +73,7 @@ public class CartController : ControllerBase
     }
 
     [HttpPost]
-    public IActionResult AddCart([FromQuery] CartRequestDto cartRequest)
+    public IActionResult AddCart([FromBody] CartRequestDto cartRequest)
     {
         if (cartRequest.CreatedBy == Guid.Empty)
         {
@@ -92,10 +100,9 @@ public class CartController : ControllerBase
     }
     
 
-    [HttpGet("process")]
-    public IActionResult Process([FromQuery]Guid cartId)
+    [HttpGet("Checkout")]
+    public IActionResult Checkout([FromQuery]Guid cartId)
     {
-        //If cartId is empty return a bad request with a message
         if (cartId == Guid.Empty)
         {
             return BadRequest("You need to provide the <id> of the cart you want to checkout");
@@ -105,21 +112,20 @@ public class CartController : ControllerBase
         var cart = _cartRepository.GetCart(cartId);
         
         //Map into a DTO
-        var itemsDto = cart.Items.Select(i => new CartItemResponse()
+        var cartDto = new CartDto()
         {
-            Name = i.Name,
-            Price = i.Price,
-            CartId = i.CartId,
-            ProductId = i.ProductId,
-        });
-        
-        //Create the event to send into message queue
-        var message = new PlaceOrderEvent()
-        {
-            //TODO:Add Discount 
-            CommandType = CommandTypes.PlaceOrder,
-            OrderItems = itemsDto,
+            CreatedAt = cart.CreatedAt,
+            CreatedBy = cart.CreatedBy,
+            Items = cart.Items.Select(i => new CartItemDto()
+            {
+                Name = i.Name,
+                Price = i.Price,
+                ProductId = i.ProductId,
+                Description = i.Description,
+            })
         };
+        //Create the event to send into message queue
+        var message = new CheckoutEvent(cartDto);
 
         _messageService.PublishMessage(message);
         return Ok("Order added to queue and will be processed!");

@@ -1,5 +1,9 @@
+using Microsoft.EntityFrameworkCore;
 using OrderService.AsyncComunication;
+using OrderService.Data;
 using OrderService.Grpc;
+using OrderService.Handlers;
+using OrderService.Repository;
 using OrderService.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -7,16 +11,23 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 
 //dbContext
-//builder.Services.AddDbContext<OrderDbContext>(options => { options.UseInMemoryDatabase(builder.Configuration.GetConnectionString("DefaultConnection")!); });
+var connectionString = builder.Configuration.GetConnectionString("Aws");
+builder.Services.AddDbContext<OrderDbContext>(options =>
+{
+    options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
+});
 
 builder.Services.AddControllers();
-builder.Services.AddScoped<CatalogService>();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddScoped<IOrderProcess, OrderProcess>();
-builder.Services.AddHostedService<MessageService>();
 
+builder.Services.AddScoped<IOrderRepository, OrderRepository>();
+builder.Services.AddScoped<IOrderCreator, OrderCreator>();
+builder.Services.AddScoped<IEventHandlers, EventHandlers>();
+builder.Services.AddScoped<IEventProducer, EventProducer>();
+builder.Services.AddHostedService<Consumer>();
+builder.Services.AddGrpc();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -26,6 +37,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.MapGrpcService<GrpcOrderService>();
 app.UseHttpsRedirection();
 
 app.UseAuthorization();

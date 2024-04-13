@@ -22,7 +22,7 @@ message ItemResponse{
 
 //Types for items existence checking
 message CheckItemRequest{
-  repeated ItemRequest items = 1;
+  repeated string items = 1;
 }
 message CheckItemResponse{
   bool Ok = 1;

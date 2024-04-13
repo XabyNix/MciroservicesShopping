@@ -1,0 +1,32 @@
+syntax = "proto3";
+option csharp_namespace = "Common.Protos";
+
+package OrderService;
+
+service OrderServiceGrpc {
+  rpc GetOrderDetail(OrderRequestGrpc) returns (OrderResponseGrpc);
+  rpc GetOrderItems(OrderRequestGrpc) returns (OrderItemResponseGrpc);
+}
+
+message OrderRequestGrpc{
+  string orderId = 1;
+}
+
+message OrderResponseGrpc{
+  string OrderId = 1;
+  string UserId = 2;
+  string Status = 3;
+  float Total = 4;
+  repeated OrderItemGrpc Items = 5;
+}
+message OrderItemResponseGrpc{
+  repeated OrderItemGrpc orderItems = 1;
+}
+message OrderItemGrpc{
+  string ProductId = 1;
+  string OrderId = 2;
+  int32 Quantity= 3;
+  string  Name = 4;
+  string  Description = 5;
+  float Price = 6;
+}

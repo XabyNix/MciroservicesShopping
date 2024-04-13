@@ -1,19 +1,23 @@
 using CartService;
+using CartService.AsyncMessage;
+using CartService.Data;
 using CartService.Repositories;
 using CartService.Repositories.Interfaces;
-
 using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
 
 //dbContext
 var connectionString = builder.Configuration.GetConnectionString("Aws");
-builder.Services.AddDbContext<CartDbContext>(
-    options => { options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)); });
+builder.Services.AddDbContext<CartDbContext>(options =>
+{
+    options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
+});
 
 // Add services to the container.
 builder.Services.AddScoped<ICartRepository, CartRepository>();
-builder.Services.AddScoped<IITemRepository, ItemRepository>();
+builder.Services.AddScoped<IItemRepository, ItemRepository>();
 builder.Services.AddSingleton<IMessageService, MessageService>();
 builder.Services.AddControllers();
 
@@ -21,7 +25,6 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddHttpClient();
-
 
 
 var app = builder.Build();

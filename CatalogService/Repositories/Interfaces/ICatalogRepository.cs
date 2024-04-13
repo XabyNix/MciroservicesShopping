@@ -1,18 +1,16 @@
 ﻿using CatalogService.Models;
 
-namespace CatalogService;
+namespace CatalogService.Repositories.Interfaces;
 
 public interface ICatalogRepository
 {
-    public IEnumerable<Item> GetCatalog();
-    public Item? GetCatalogItem(Guid id);
-    public Item? GetCatalogItemByName(string name);
-
-    public IEnumerable<Item> GetItemsFromIds(IEnumerable<Guid> ids);
-
-    
-    //public IEnumerable<Item> GetItemFromCart(Guid CartId);
-    public void AddItem(Item item);
-    public void UpdateItem(Item item);
-    public bool ItemExists(Guid id);
+    IEnumerable<Item> GetCatalog();
+    Item GetCatalogItem(Guid id);
+    IEnumerable<Item> GetItemsByName(string name);
+    IEnumerable<Item> GetItemsFromIdList(IEnumerable<Guid> ids);
+    void AddItem(Item item);
+    void UpdateItem(Item item);
+    void UpdateManyQuantity(IEnumerable<Item> items);
+    bool ItemExists(Guid id);
+    Task SaveChanges();
 }
