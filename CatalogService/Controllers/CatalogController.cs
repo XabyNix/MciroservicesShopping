@@ -1,4 +1,6 @@
-﻿using CatalogService.Models;
+﻿using System;
+using System.Collections.Generic;
+using CatalogService.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CatalogService.Repositories.Interfaces;

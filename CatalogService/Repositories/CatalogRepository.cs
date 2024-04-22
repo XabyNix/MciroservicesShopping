@@ -1,4 +1,7 @@
-﻿using CatalogService.Data;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using CatalogService.Data;
 using CatalogService.Models;
 using CatalogService.Repositories.Interfaces;
 
