@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using CatalogService.Data;
+﻿using CatalogService.Data;
 using CatalogService.Models;
 using CatalogService.Repositories.Interfaces;
 
@@ -80,5 +77,11 @@ public class CatalogRepository : ICatalogRepository
         }
 
         //_context.SaveChanges();
+    }
+
+    public void RemoveItems(IEnumerable<Item> items)
+    {
+        //var items = GetItemsFromIdList(ids);
+        _context.CatalogItems.RemoveRange(items);
     }
 }

@@ -5,7 +5,6 @@ using Authentication.Services.Interfaces;
 using Authentication.Shared.Settings;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -22,9 +21,9 @@ builder.Services.AddSwaggerGen();
 var settings = new Settings(builder.Configuration, builder.Services);
 var jwtSettings = settings.Configure<JwtSettings>(nameof(JwtSettings));
 
-//DBContext
+/*//DBContext
 builder.Services.AddDbContext<AuthDbContext>(options =>
-    options.UseMySQL(builder.Configuration.GetConnectionString("DefaultConnection")!));
+    options(builder.Configuration.GetConnectionString("DefaultConnection")!));*/
 
 
 //Add Authentication

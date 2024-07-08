@@ -17,20 +17,6 @@ public class EventProducer : IEventProducer
         InitRabbitMq();
     }
 
-    /*public void PublishEvent(ItemReservationFailedEvent itemsReservationFailedEvent)
-    {
-        if (_connection.IsOpen)
-        {
-            var serializedEvent = JsonSerializer.Serialize(itemsReservationFailedEvent);
-            Send(serializedEvent, "order.reservation.failed");
-            Console.WriteLine($"Event {nameof(itemsReservationFailedEvent)} sent");
-        }
-        else
-        {
-            Console.WriteLine("Connection closed cannot send event");
-        }
-    }*/
-
     public void PublishEvent<T>(T itemsReservedEvent) where T : BasicEvent
     {
         if (_connection.IsOpen)
@@ -58,15 +44,22 @@ public class EventProducer : IEventProducer
 
     private void InitRabbitMq()
     {
-        var factory = new ConnectionFactory
+        try
         {
-            Uri = new Uri(_configuration["Aws:RabbitMQHost"]),
-            UserName = _configuration["Aws:Username"],
-            Password = _configuration["Aws:Password"]
-        };
-        _connection = factory.CreateConnection();
-        _channel = _connection.CreateModel();
-        _channel.ExchangeDeclare("order", ExchangeType.Topic);
+            var factory = new ConnectionFactory
+            {
+                Uri = new Uri(_configuration["Aws:RabbitMQHost"]),
+                UserName = _configuration["Aws:Username"],
+                Password = _configuration["Aws:Password"]
+            };
+            _connection = factory.CreateConnection();
+            _channel = _connection.CreateModel();
+            _channel.ExchangeDeclare("order", ExchangeType.Topic);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e.Message);
+        }
     }
 
     private void Send(string message, string routingKey)

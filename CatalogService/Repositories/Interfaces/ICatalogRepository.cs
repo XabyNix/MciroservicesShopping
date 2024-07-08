@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using CatalogService.Models;
+﻿using CatalogService.Models;
 
 namespace CatalogService.Repositories.Interfaces;
 
@@ -14,5 +12,6 @@ public interface ICatalogRepository
     void UpdateItem(Item item);
     void UpdateManyQuantity(IEnumerable<Item> items);
     bool ItemExists(Guid id);
+    void RemoveItems(IEnumerable<Item> items);
     Task SaveChanges();
 }

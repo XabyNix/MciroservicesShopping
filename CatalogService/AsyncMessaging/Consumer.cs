@@ -29,23 +29,33 @@ public class Consumer : BackgroundService
 
     private void InitRabbitMq()
     {
-        var factory = new ConnectionFactory
+        try
         {
-            Uri = new Uri(_configuration["Aws:RabbitMQHost"] ?? string.Empty),
-            UserName = _configuration["Aws:Username"],
-            Password = _configuration["Aws:Password"]
-        };
-        _connection = factory.CreateConnection();
-        _channel = _connection.CreateModel();
+            var factory = new ConnectionFactory
+            {
+                Uri = new Uri(_configuration["Aws:RabbitMQHost"] ?? string.Empty),
+                UserName = _configuration["Aws:Username"],
+                Password = _configuration["Aws:Password"]
+            };
+            _connection = factory.CreateConnection();
+            _channel = _connection.CreateModel();
 
-        _orderCreatedQueue = _channel.QueueDeclare(exclusive: false).QueueName;
-        _rejectedPaymentQueue = _channel.QueueDeclare(exclusive: false).QueueName;
-        _orderConfirmedQueue = _channel.QueueDeclare(exclusive: true).QueueName;
+            _channel.ExchangeDeclare("order", ExchangeType.Topic, true);
 
-        _channel.QueueBind(_orderCreatedQueue, "order", "order.created");
-        _channel.QueueBind(_rejectedPaymentQueue, "order", "order.payment.rejected");
-        _channel.QueueBind(_orderConfirmedQueue, "order", "order.confirm");
+            _orderCreatedQueue = _channel.QueueDeclare(exclusive: false).QueueName;
+            _rejectedPaymentQueue = _channel.QueueDeclare(exclusive: false).QueueName;
+            _orderConfirmedQueue = _channel.QueueDeclare(exclusive: true).QueueName;
+
+            _channel.QueueBind(_orderCreatedQueue, "order", "order.created");
+            _channel.QueueBind(_rejectedPaymentQueue, "order", "order.payment.rejected");
+            _channel.QueueBind(_orderConfirmedQueue, "order", "order.confirm");
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e.Message);
+        }
     }
+
 
     protected override Task ExecuteAsync(CancellationToken stoppingToken)
     {
