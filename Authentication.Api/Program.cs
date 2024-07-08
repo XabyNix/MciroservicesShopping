@@ -49,7 +49,7 @@ builder.Services.AddAuthentication(options =>
     };
 });
 builder.Services.AddAuthorization();
-
+Console.WriteLine("ciao");
 //Dependency Injection
 builder.Services.AddScoped<IIdentityService, IdentityService>();
 
