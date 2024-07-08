@@ -1,6 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using CatalogService.Models;
+﻿using CatalogService.Models;
+using CatalogService.Models.Dto;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CatalogService.Repositories.Interfaces;
@@ -47,14 +46,40 @@ public class CatalogController : ControllerBase
     }
 
     [HttpPost]
-    public IActionResult AddItem([FromBody] Item item)
+    public IActionResult AddItem([FromForm] ItemDto itemRequest)
     {
-        if (item == null) return BadRequest(item);
+        Console.WriteLine($"Received POST AddItem: {itemRequest}");
+        if (itemRequest == null) return BadRequest(itemRequest);
+        var item = new Item
+        {
+            Quantity = itemRequest.Quantity,
+            Description = itemRequest.Description,
+            Price = itemRequest.Price,
+            ProductName = itemRequest.ProductName
+        };
+
         var exists = _catalog.ItemExists(item.Id);
         if (exists) return Conflict();
         _catalog.AddItem(item);
 
         return CreatedAtRoute("GetCatalogItem", new { id = item.Id }, item);
+    }
+
+    [HttpDelete("delete")]
+    public IActionResult RemoveItems([FromBody] IEnumerable<ItemsDeleteRequest> request)
+    {
+        var modelItems = request.Select(i => new Item
+        {
+            ProductName = i.ProductName,
+            Description = i.Description,
+            Price = i.Price,
+            Id = i.Id
+        });
+
+        _catalog.RemoveItems(modelItems);
+        _catalog.SaveChanges();
+        Console.WriteLine("--> Items removed");
+        return Ok();
     }
 
     [HttpPut]

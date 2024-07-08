@@ -38,6 +38,8 @@ public class Consumer : BackgroundService
         _connection = factory.CreateConnection();
         _channel = _connection.CreateModel();
 
+        _channel.ExchangeDeclare("order", ExchangeType.Topic, true);
+
         _orderCheckoutQueue = _channel.QueueDeclare(exclusive: false).QueueName;
         _orderConfirmedQueue = _channel.QueueDeclare(exclusive: false).QueueName;
         _orderAbortQueue = _channel.QueueDeclare(exclusive: false).QueueName;

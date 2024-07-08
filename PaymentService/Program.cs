@@ -8,7 +8,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddHostedService<Consumer>();
-
+builder.Services.AddCors();
 builder.Services.AddScoped<IEventProducer, EventProducer>();
 builder.Services.AddScoped<IPaymentHandler, PaymentHandler>();
 
@@ -21,6 +21,7 @@ var app = builder.Build();
     app.UseSwagger();
     app.UseSwaggerUI();
 }*/
+app.UseCors(options => options.WithOrigins("http://localhost:5173").AllowAnyMethod().AllowAnyHeader());
 
 app.UseHttpsRedirection();
 
